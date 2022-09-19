@@ -102,28 +102,3 @@ console.log({
     getCarInfo: stodevianosto.getCarInfo(),
   },
 });
-
-// console.log({
-//   daniel: {
-//     fullName: daniel916.fullName(),
-//     countCars: daniel916.countCars(),
-//     getAllCarsInfo: daniel916.getAllCarsInfo(),
-//   },
-//   elon: {
-//     fullName: ilona.fullName(),
-//     countCars: ilona.countCars(),
-//     getAllCarsInfo: ilona.getAllCarsInfo(),
-//   },
-//   duti_picoti: {
-//     getOwnersCount: duti_picoti.getOwnersCount(),
-//     getOwnerNames: duti_picoti.getOwnerNames(),
-//     getFullInfo: duti_picoti.getFullInfo(),
-//     getCarInfo: duti_picoti.getCarInfo(),
-//   },
-//   stodevianosto: {
-//     getOwnersCount: stodevianosto.getOwnersCount(),
-//     getOwnerNames: stodevianosto.getOwnerNames(),
-//     getFullInfo: stodevianosto.getFullInfo(),
-//     getCarInfo: stodevianosto.getCarInfo(),
-//   },
-// });
