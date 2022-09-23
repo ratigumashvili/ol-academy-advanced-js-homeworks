@@ -32,7 +32,7 @@ class Car extends Vechile {
       this.year
     }. ${this.getOwnersCount()} person owns this car. These are - ${this.owners
       ?.map((owner) => `${owner.fullName()}`)
-      .join(", ")}`;
+      .join(", ")}.`;
   }
 }
 
