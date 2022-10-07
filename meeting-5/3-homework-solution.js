@@ -57,9 +57,15 @@ function videoDetails(video) {
 
 function getPassedUsersFirstVideoTitle(user) {
   loginUser(user, 1234)
-    .then((user) => getUserVideos(user.userEmail))
-    .then((videos) => videoDetails(videos[0]))
-    .then((title) => console.log(title))
+    .then((user) => {
+      console.log("user: ", user.userEmail);
+      return getUserVideos(user.userEmail);
+    })
+    .then((videos) => {
+      console.log("videos: ", videos);
+      return videoDetails(videos[0]);
+    })
+    .then((title) => console.log("title: ", title))
     .catch((error) => displayError(error));
 }
 
