@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>React ToDo App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <h1>ToDo App</h1>
+    </header>
+
+    <div id="todo_app"></div>
+
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+
+    <script type="text/babel">
+      "use strict";
+
+      const e = React.createElement;
+
+      class ToDos extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            todo: "",
+            todos: [
+              { id: 1, title: "some text for todo 1", isCompleate: false },
+              { id: 2, title: "some text for todo 2", isCompleate: false },
+              { id: 3, title: "some text for todo 3", isCompleate: false },
+              { id: 4, title: "some text for todo 4", isCompleate: false },
+              { id: 5, title: "some text for todo 5", isCompleate: false },
+            ],
+          };
+        }
+
+        render() {
+          const { todos, todo } = this.state;
+
+          const handleChange = (e) => {
+            this.setState({ todo: e.target.value });
+          };
+
+          const handleAddTodo = (e) => {
+            e.preventDefault();
+
+            const newObj = {
+              id: new Date().getUTCMilliseconds(),
+              title: todo,
+              isCompleate: false,
+            };
+
+            if (todo.length !== 0) {
+              this.setState({ todos: [...todos, newObj] });
+            }
+            this.setState({ todo: "" });
+          };
+
+          const handleDelete = (id) => {
+            const updatedList = [...todos].filter((item) => item.id !== id);
+            this.setState({ todos: updatedList });
+          };
+
+          return (
+            <div>
+              <form>
+                <input
+                  type="text"
+                  placeholder="Add your todo"
+                  value={todo}
+                  onChange={handleChange}
+                />
+                <button onClick={handleAddTodo}>Add todo</button>
+              </form>
+              <ul>
+                {todos.map((item) => (
+                  <li key={item.id}>
+                    <div>
+                      {item.title}{" "}
+                      <button onClick={() => handleDelete(item.id)}>
+                        Delete
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          );
+        }
+      }
+
+      const domContainer = document.querySelector("#todo_app");
+      ReactDOM.render(<ToDos />, domContainer);
+    </script>
+  </body>
+</html>
