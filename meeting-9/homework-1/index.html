@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>React ToDo App</title>
+    <link rel="stylesheet" href="./style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
   </head>
   <body>
@@ -62,6 +63,16 @@
             this.setState({ todo: "" });
           };
 
+          const handleCompleate = (id) => {
+            const updatedList = [...todos].map((item) => {
+              if (item.id === id) {
+                item.isComplete = !item.isComplete;
+              }
+              return item;
+            });
+            this.setState({ todos: updatedList });
+          };
+
           const handleDelete = (id) => {
             const updatedList = [...todos].filter((item) => item.id !== id);
             this.setState({ todos: updatedList });
@@ -78,11 +89,21 @@
                 />
                 <button onClick={handleAddTodo}>Add todo</button>
               </form>
-              <ul>
+              <ul className="todos-list">
                 {todos.map((item) => (
                   <li key={item.id}>
-                    <div>
-                      {item.title}{" "}
+                    <div className="todos-list__item">
+                      <input
+                        type="checkbox"
+                        onChange={() => handleCompleate(item.id)}
+                      />
+                      <p
+                        className={`todo-task ${
+                          item.isComplete ? "complete" : ""
+                        }`}
+                      >
+                        {item.title}
+                      </p>
                       <button onClick={() => handleDelete(item.id)}>
                         Delete
                       </button>
