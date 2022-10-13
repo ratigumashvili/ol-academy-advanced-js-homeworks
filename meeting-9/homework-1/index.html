@@ -32,11 +32,11 @@
           this.state = {
             todo: "",
             todos: [
-              { id: 1, title: "some text for todo 1", isCompleate: false },
-              { id: 2, title: "some text for todo 2", isCompleate: false },
-              { id: 3, title: "some text for todo 3", isCompleate: false },
-              { id: 4, title: "some text for todo 4", isCompleate: false },
-              { id: 5, title: "some text for todo 5", isCompleate: false },
+              { id: 101, title: "some text for todo 1", isCompleate: false },
+              { id: 202, title: "some text for todo 2", isCompleate: false },
+              { id: 303, title: "some text for todo 3", isCompleate: false },
+              { id: 404, title: "some text for todo 4", isCompleate: false },
+              { id: 505, title: "some text for todo 5", isCompleate: false },
             ],
           };
         }
@@ -52,7 +52,7 @@
             e.preventDefault();
 
             const newObj = {
-              id: new Date().getUTCMilliseconds(),
+              id: Date.now(),
               title: todo,
               isCompleate: false,
             };
@@ -80,14 +80,14 @@
 
           return (
             <div>
-              <form>
+              <form onSubmit={handleAddTodo}>
                 <input
                   type="text"
                   placeholder="Add your todo"
                   value={todo}
                   onChange={handleChange}
                 />
-                <button onClick={handleAddTodo}>Add todo</button>
+                <button type="submit">Add todo</button>
               </form>
               <ul className="todos-list">
                 {todos.map((item) => (
