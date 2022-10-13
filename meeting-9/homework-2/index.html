@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+    <title>React Like Button</title>
+  </head>
+  <body>
+    <div id="like-btn"></div>
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+
+    <script type="text/babel">
+      "use strict";
+
+      const e = React.createElement;
+
+      class LikeBtn extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            liked_1: false,
+            liked_2: false,
+            counter: 0,
+          };
+        }
+
+        render() {
+          const { liked_2, counter } = this.state;
+          if (this.state.liked_1) {
+            return "You liked this";
+          }
+
+          const counterIncrease = () => {
+            this.setState({ counter: counter + 1 });
+            console.log("counter state updated");
+          };
+
+          const counterDecrease = () => {
+            this.setState({ counter: counter - 1 });
+            console.log("counter state updated");
+          };
+
+          return (
+            <div>
+              <button onClick={() => this.setState({ liked_1: true })}>
+                Like
+              </button>
+              <br />
+              <br />
+              <button onClick={() => this.setState({ liked_2: !liked_2 })}>
+                {this.state.liked_2 ? "Dislike" : "Like"}
+              </button>
+              <br />
+              <br />
+              <div>{counter}</div>
+              <br />
+              <button onClick={() => counterIncrease()}>+</button>
+              <button onClick={() => counterDecrease()}>-</button>
+            </div>
+          );
+        }
+      }
+
+      const domContainer = document.getElementById("like-btn");
+      ReactDOM.render(<LikeBtn />, domContainer);
+    </script>
+  </body>
+</html>
