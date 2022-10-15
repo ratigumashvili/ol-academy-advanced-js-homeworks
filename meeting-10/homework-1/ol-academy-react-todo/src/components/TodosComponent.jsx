@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, TodoItem, Header } from "./Index";
+import { Form, TodoItem, Header, ErrorNotification } from "./Index";
 
 class TodosComponent extends React.Component {
   constructor(props) {
@@ -46,12 +46,12 @@ class TodosComponent extends React.Component {
       if (title.some((newTitle) => newTitle === todo)) {
         this.setState({
           errorContainer: true,
-          errorMsg: "Item's allready added, bro",
+          errorMsg: "Item with such title already registered",
         });
       } else if (todo.length === 0) {
         this.setState({
           errorContainer: true,
-          errorMsg: "You have to right down something, bro",
+          errorMsg: "Input field must not be empty",
         });
       } else {
         this.setState({
@@ -131,15 +131,19 @@ class TodosComponent extends React.Component {
 
     return (
       <>
-        <h1>Todos</h1>
-        <Header deleteAll={deleteAll} deleteComplete={deleteComplete} />
-        {errorContainer && <div>{errorMsg}</div>}
+        <Header
+          title="Todos"
+          deleteAll={deleteAll}
+          deleteComplete={deleteComplete}
+          todos={todos}
+        />
+        {errorContainer && <ErrorNotification errorMsg={errorMsg} />}
         <Form
           addTodo={addTodo}
           todo={todo}
           handleChangeInput={handleChangeInput}
         />
-        <ul>
+        <ul className="todo-list">
           {todos.map((item) => (
             <TodoItem
               key={item.id}
@@ -155,7 +159,7 @@ class TodosComponent extends React.Component {
           ))}
         </ul>
         {showEditMenu && (
-          <div>
+          <div className="edit-menu">
             <input
               type="text"
               value={editTitle}
