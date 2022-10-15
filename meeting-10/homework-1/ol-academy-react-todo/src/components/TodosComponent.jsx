@@ -1,7 +1,5 @@
 import React from "react";
-import Form from "./Form";
-import TodoItem from "./TodoItem";
-import Header from "./Header";
+import { Form, TodoItem, Header } from "./Index";
 
 class TodosComponent extends React.Component {
   constructor(props) {
@@ -13,14 +11,26 @@ class TodosComponent extends React.Component {
       editTitle: "",
       errorContainer: null,
       errorMsg: "",
+      grabedId: "",
+      showControls: true,
     };
   }
 
   render() {
-    const { todos, todo, showEditMenu, editTitle, errorContainer, errorMsg } =
-      this.state;
+    const {
+      todos,
+      todo,
+      showEditMenu,
+      editTitle,
+      errorContainer,
+      errorMsg,
+      showControls,
+      grabedId,
+    } = this.state;
 
     const title = todos?.map((item) => item.title);
+    const up = -1;
+    const down = 1;
 
     const handleChangeInput = (e) => {
       this.setState({ todo: e.target.value });
@@ -54,7 +64,7 @@ class TodosComponent extends React.Component {
 
     const handleDelete = (id) => {
       const updatedList = [...todos].filter((item) => item.id !== id);
-      this.setState({ todos: updatedList });
+      this.setState({ todos: updatedList, showEditMenu: false });
     };
 
     const handleComplete = (id) => {
@@ -65,16 +75,20 @@ class TodosComponent extends React.Component {
         return item;
       });
       this.setState({ todos: updatedList });
-      console.log(todos);
     };
 
     const handleOpenEditMenu = (item) => {
-      this.setState({ showEditMenu: true, editTitle: item.title });
+      this.setState({
+        showEditMenu: true,
+        editTitle: item.title,
+        grabedId: item.id,
+        showControls: false,
+      });
     };
 
-    const handleSaveUpdated = (id) => {
+    const handleSaveEdited = () => {
       const updatedObj = [...todos].map((item) => {
-        if (item.id === id && editTitle.length !== 0) {
+        if (item.id === grabedId && editTitle.length !== 0) {
           item.title = editTitle;
         }
         return item;
@@ -85,7 +99,25 @@ class TodosComponent extends React.Component {
         editTitle: "",
         errorContainer: null,
         todo: "",
+        showControls: true,
       });
+    };
+
+    const handleMove = (id, direction) => {
+      const position = todos.findIndex((i) => i.id === id);
+
+      if (
+        (direction === up && position === 0) ||
+        (direction === down && position === todos.length - 1)
+      ) {
+        return;
+      }
+
+      const item = todos[position];
+      const reordered = todos.filter((i) => i.id !== id);
+      reordered.splice(position + direction, 0, item);
+
+      this.setState({ todos: reordered });
     };
 
     const deleteAll = () => {
@@ -115,7 +147,10 @@ class TodosComponent extends React.Component {
               handleDelete={handleDelete}
               handleComplete={handleComplete}
               handleOpenEditMenu={handleOpenEditMenu}
-              handleSaveUpdated={handleSaveUpdated}
+              handleMove={handleMove}
+              up={up}
+              down={down}
+              showControls={showControls}
             />
           ))}
         </ul>
@@ -126,6 +161,7 @@ class TodosComponent extends React.Component {
               value={editTitle}
               onChange={(e) => this.setState({ editTitle: e.target.value })}
             />
+            <button onClick={handleSaveEdited}>Save</button>
           </div>
         )}
       </>

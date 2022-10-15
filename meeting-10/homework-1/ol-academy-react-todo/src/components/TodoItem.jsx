@@ -1,29 +1,17 @@
 import React from "react";
 
 class TodoItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      btnState: "edit",
-    };
-  }
   render() {
-    const { btnState } = this.state;
     const {
       item,
       handleDelete,
       handleComplete,
       handleOpenEditMenu,
-      handleSaveUpdated,
+      handleMove,
+      up,
+      down,
+      showControls,
     } = this.props;
-
-    const callback = () => {
-      if (btnState === "edit") {
-        this.setState({ btnState: "save" });
-      } else {
-        this.setState({ btnState: "edit" });
-      }
-    };
 
     return (
       <>
@@ -33,15 +21,13 @@ class TodoItem extends React.Component {
             <span className={`${item.isComplete === true && "mark"}`}>
               {item.title}
             </span>
-            <button onClick={() => handleDelete(item.id)}>Delete</button>
-            {btnState === "edit" ? (
-              <button onClick={() => handleOpenEditMenu(item, callback())}>
-                Edit
-              </button>
-            ) : (
-              <button onClick={() => handleSaveUpdated(item.id, callback())}>
-                Save
-              </button>
+            {showControls && (
+              <>
+                <button onClick={() => handleDelete(item.id)}>Delete</button>
+                <button onClick={() => handleOpenEditMenu(item)}>Edit</button>
+                <button onClick={() => handleMove(item.id, up)}>Up</button>
+                <button onClick={() => handleMove(item.id, down)}>Down</button>
+              </>
             )}
           </div>
         </li>
