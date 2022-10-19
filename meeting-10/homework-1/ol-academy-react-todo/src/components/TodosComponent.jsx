@@ -87,20 +87,29 @@ class TodosComponent extends React.Component {
     };
 
     const handleSaveEdited = () => {
+      const allTitles = todos.map((item) => item.title);
+      const isTitle = allTitles.some((nt) => nt === editTitle);
       const updatedObj = [...todos].map((item) => {
-        if (item.id === grabedId && editTitle.length !== 0) {
+        if (item.id === grabedId && editTitle.length !== 0 && !isTitle) {
           item.title = editTitle;
         }
         return item;
       });
-      this.setState({
-        todos: updatedObj,
-        showEditMenu: false,
-        editTitle: "",
-        errorContainer: null,
-        todo: "",
-        showControls: true,
-      });
+      if (isTitle) {
+        this.setState({
+          errorContainer: true,
+          errorMsg: "Item with such title already registered",
+        });
+      } else {
+        this.setState({
+          todos: updatedObj,
+          showEditMenu: false,
+          editTitle: "",
+          errorContainer: null,
+          todo: "",
+          showControls: true,
+        });
+      }
     };
 
     const handleMove = (id, direction) => {
