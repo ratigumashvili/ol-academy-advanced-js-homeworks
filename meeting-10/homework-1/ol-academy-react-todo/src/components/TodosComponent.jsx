@@ -28,7 +28,13 @@ class TodosComponent extends React.Component {
       grabedId,
     } = this.state;
 
-    const title = todos?.map((item) => item.title);
+    const checkTitle = (newTitle) => {
+      const isTitle = todos?.some((existingTitles) => {
+        return existingTitles.title === newTitle;
+      });
+      return isTitle;
+    };
+
     const up = -1;
     const down = 1;
 
@@ -43,7 +49,7 @@ class TodosComponent extends React.Component {
         isComplete: false,
       };
 
-      if (title.some((newTitle) => newTitle === todo)) {
+      if (checkTitle(newTodo.title)) {
         this.setState({
           errorContainer: true,
           errorMsg: "Item with such title already registered",
@@ -87,9 +93,8 @@ class TodosComponent extends React.Component {
     };
 
     const handleSaveEdited = () => {
-      const isTitle = todos.some((existingTitles) => {
-        return existingTitles.title === editTitle;
-      });
+      const isTitle = checkTitle(editTitle);
+
       const updatedObj = [...todos].map((item) => {
         if (item.id === grabedId && editTitle.length !== 0 && !isTitle) {
           item.title = editTitle;
