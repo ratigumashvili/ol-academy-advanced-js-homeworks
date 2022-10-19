@@ -87,8 +87,9 @@ class TodosComponent extends React.Component {
     };
 
     const handleSaveEdited = () => {
-      const allTitles = todos.map((item) => item.title);
-      const isTitle = allTitles.some((nt) => nt === editTitle);
+      const isTitle = todos.some((existingTitles) => {
+        return existingTitles.title === editTitle;
+      });
       const updatedObj = [...todos].map((item) => {
         if (item.id === grabedId && editTitle.length !== 0 && !isTitle) {
           item.title = editTitle;
